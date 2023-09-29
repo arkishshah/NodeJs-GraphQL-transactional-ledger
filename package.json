@@ -1,0 +1,19 @@
+{
+  "name": "transactional-ledger-northone",
+  "version": "1.0.0",
+  "description": "NodeJS microservice for our banking platform that handles transaction data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.12.1",
+    "aws-sdk": "^2.1467.0",
+    "dotenv": "^16.3.1",
+    "faker": "^5.5.3",
+    "graphql": "^16.8.1"
+  }
+}
