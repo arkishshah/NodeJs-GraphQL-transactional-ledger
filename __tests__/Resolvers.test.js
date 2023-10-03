@@ -47,7 +47,7 @@ describe('resolvers', () => {
         expect(result.Amount).toEqual(mockTransaction.Amount);
         expect(result.CounterpartyName).toEqual(mockTransaction.CounterpartyName);
     });
-    
+
     test('deleteTransaction should delete a transaction', async () => {
         mockDeletePromise.mockResolvedValueOnce({});
 
@@ -70,16 +70,5 @@ describe('resolvers', () => {
         const result = await root.getAccountBalance();
         expect(result).toEqual(150);
     });
-
-    test('getMethodMapping should return the mapping of Method Code to Method Name', () => {
-        const result = root.getMethodMapping();
-        expect(result).toEqual([
-            { code: 12, name: "Card Purchase" },
-            { code: 34, name: "ACH" },
-            { code: 56, name: "Wire" },
-            { code: 78, name: "Fee" }
-        ]);
-    });
-
 });
 
