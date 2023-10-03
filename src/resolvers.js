@@ -11,6 +11,8 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 const TableName = "Transactions";
 
+// Method name mapping. 
+
 const methodCodeToNameMapping = {
     12: "Card Purchase",
     34: "ACH",
@@ -18,13 +20,19 @@ const methodCodeToNameMapping = {
     78: "Fee"
 };
 
+// Generate an ID to store the transactional records
+
 const generateID = () => {
     return parseInt((Date.now() % 1000000000).toString());
 };
 
+// Fetch method code from amount, if not specified already and assign an arbitrary value.
+
 const getMethodCodeFromAmount = (amount) => {
     return amount > 0 ? 90 : 91;
 };
+
+// Determine method name from method code.
 
 const getMethodNameFromCode = (methodCode) => {
     if (!methodCode && methodCode !== 0) {
@@ -34,6 +42,9 @@ const getMethodNameFromCode = (methodCode) => {
 };
 
 const root = {
+
+    // Fetch and list trasactions by passing an ID
+
     getTransaction: ({ ID }) => {
         const params = {
             TableName,
@@ -48,6 +59,10 @@ const root = {
             return data.Item;
         });
     },
+
+
+    // Fetch and list all transactions
+
     listTransactions: () => {
         const params = {
             TableName
@@ -61,6 +76,9 @@ const root = {
             return data.Items;
         });
     },
+
+    // Create and save a transaction
+
     createTransaction: async (transaction) => {
         if (!transaction.Amount || !transaction.CounterpartyName || !transaction.Date || !transaction.Note || !transaction.Status) {
             throw new Error("All fields are required to create a transaction.");
@@ -91,6 +109,8 @@ const root = {
             throw new Error("Error creating transaction: " + error.message);
         }
     },
+
+    // Update a transaction. (Only Note and Status allowed to be updated)
 
     updateTransaction: async (args) => {
         const { ID, Note, Status } = args;
@@ -135,6 +155,8 @@ const root = {
         return updatedTransaction;
     },    
 
+    // Delete a transaction
+
     deleteTransaction: async ({ ID }) => {
         if (!ID) {
             throw new Error("ID is required to delete a transaction.");
@@ -152,6 +174,9 @@ const root = {
             throw new Error("Error deleting transaction: " + error.message);
         }
     },
+
+    // Returns list of transactions by Method Name
+
     listTransactionsByMethod: async ({ MethodName }) => {
         const methodCode = Object.keys(methodCodeToNameMapping).find(code => methodCodeToNameMapping[code] === MethodName);
         if (!methodCode) {
@@ -176,6 +201,9 @@ const root = {
             throw new Error("Error fetching transactions by method: " + error.message);
         }
     },
+
+    // Calculates the sum of all transactions. 
+
     getAccountBalance: async () => {
         const params = {
             TableName
@@ -188,13 +216,12 @@ const root = {
             throw new Error("Error fetching account balance: " + error.message);
         }
     },
-    getMethodMapping: () => {
-        return Object.entries(methodCodeToNameMapping).map(([code, name]) => ({
-            code: parseInt(code),
-            name
-        }));
+
+    //Returns the method, by passing method code.
+
+    getMethodMapping: ({ MethodCode }) => {
+        return methodCodeToNameMapping[MethodCode] || "Unknown";
     }   
 };
 
 module.exports = {root, generateID, getMethodCodeFromAmount, getMethodNameFromCode};
-
