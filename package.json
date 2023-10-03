@@ -4,16 +4,30 @@
   "description": "NodeJS microservice for our banking platform that handles transaction data.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "start": "node index.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^3.12.1",
-    "aws-sdk": "^2.1467.0",
+    "aws-sdk": "^2.1468.0",
     "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
     "faker": "^5.5.3",
-    "graphql": "^16.8.1"
+    "graphql": "^15.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/node": "^7.22.19",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/register": "^7.22.15",
+    "aws-sdk-mock": "^5.8.0",
+    "jest": "^29.7.0"
   }
 }
