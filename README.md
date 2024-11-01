@@ -1,5 +1,6 @@
-# transactional-ledger-northone
-NodeJS microservice for our banking platform that handles transaction data. 
+# transactional-ledger-graphQL
+
+NodeJS microservice for banking platform to handle transaction data. 
 
 ## Steps to run:
 
